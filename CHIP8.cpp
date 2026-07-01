@@ -63,11 +63,13 @@ void Chip8::Cycle(){
     opcode = (memory[pc] << 8) | memory[pc + 1]; 
     pc += 2;
 
-    uint8_t first_digit = (opcode & 0xF000) >> 12;
-    uint8_t x = (opcode & 0xF000) >> 8;
-    uint8_t y = (opcode & 0xF000) >> 4;
-    uint8_t kk = (opcode & 0x00FF);
-    uint8_t last_digit = (opcode & 0x00FF);
+    uint8_t first_digit = (opcode & 0xF000u) >> 12u;
+    uint8_t x = (opcode & 0x0F00u) >> 8u;
+    uint8_t y = (opcode & 0x00F0u) >> 4u;
+    uint8_t kk = (opcode & 0x00FFu);
+    uint8_t last_digit = (opcode & 0x000Fu);
+    uint16_t address = opcode & 0x0FFFu;
+
 
     switch (first_digit)
     {
@@ -84,18 +86,163 @@ void Chip8::Cycle(){
         break;
     
     case 0x1:
-    uint16_t address = opcode & 0x0FFFu;
     pc = address;
     break;
 
     case 0x2:
+    stack[sp] = pc;
     ++sp;
-    pc = stack[sp];
+    pc = address;
     break;
 
+    case 0x3:
+    if( registers[x] == kk){
+        pc += 2;
+    }
+    break;
+
+    case 0x4:
+    if(registers[x] != kk){
+        pc += 2;
+    }
+    break;
+
+    case 0x5:{
+    if(registers[x] == registers[y]){
+        pc += 2;
+    }
+    }
+    
+    break;
+
+    case 0x6:{
+    registers[x] = kk;
+    }
+    break;
+
+    case 0x7:
+    registers[x] += kk;
+    break;
+
+    case 0x8:
+    switch (last_digit)
+    {
+    case 0x0:
+    registers[x] = registers[y];
+     break;
+
+     case 0x1:
+     registers[x] |= registers[y];
+    break;
+
+     case 0x2:
+     registers[x] &= registers[y];
+    break;
+
+    case 0x3:
+    registers[x] ^= registers[y];
+    break;
+    
+    case 0x4:
+    {
+    uint16_t sum = registers[x] + registers[y];
+    
+    if(sum > 255U){
+    registers[0xF] = 1;
+    }
+    else{
+    registers[0xF] = 0;
+    }
+    registers[x] = sum & 0xFFU;
+    }
+    break;
+
+    case 0x5:
+    if(registers[x] > registers[y]){
+        registers[0xF] = 1;
+    }
+    else{
+        registers[0xF] = 0;
+    }
+    registers[x] -= registers[y];
+    break;
+
+    case 0x6:
+    registers[0xF] = (registers[x] & 0x1u);
+    registers[x] >>= 1;
+    break;
+
+    case 0x7:
+    if(registers[y] > registers[x]){
+    registers[0xF] = 1;
+    }
+    else{
+    registers[0xF] = 0;
+    }
+    registers[x] = registers[y] - registers[x];
+    break;
+
+    case 0xE:
+    registers[0xF] = (registers[x] & 0x80u) >> 7u;
+    registers[x] <<= 1;
+    break;
+    }
+    break;
+
+    case 0x9:
+    if(registers[x] != registers[y]){
+        pc += 2;
+    }
+    break;
+
+    case 0xA:{
+    index = address;
+    }
+    break;
+
+    case 0xB:{
+    pc = registers[0] + address;
+    }
+    break;
+
+    case 0xC:
+    registers[x] = randByte(randGen) & kk;
+    break;
+
+    case 0xD:{
+    uint8_t xpos = registers[x] % DISPLAY_WIDTH;
+    uint8_t ypos = registers[y] % DISPLAY_HEIGHT;
+
+    registers[0xF] = 0;
+
+    for (unsigned int row = 0; row < last_digit; ++row)
+    {
+        uint8_t spriteByte = memory[index + row];
+
+        for (unsigned int column = 0; column < 8; ++column)
+        {
+             // its 1000 0000 so everytime we do bit shifting to left, like column 1, it becomes 0100 0000 and so on, and then we put on or off per pixel, in series.
+             uint8_t spritePixel = spriteByte & (0x80u >> column);
+
+            uint32_t* screenPixel = &display[(ypos + row) * DISPLAY_WIDTH + (xpos + column) ];
+
+            if(spritePixel){
+                if(*screenPixel == 0xFFFFFFFF){
+                    registers[0xF] = 1;
+                }
+
+                *screenPixel ^= 0xFFFFFFFF;
+            }
+
+        }
+        
+    }
+}
     
 
-    
+    break;
+
+
     default:
     std::cout<<"error"<<std::endl;
         break;

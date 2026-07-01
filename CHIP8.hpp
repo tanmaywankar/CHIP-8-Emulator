@@ -12,7 +12,9 @@ class Chip8{
     uint8_t delayTimer{};
     uint8_t soundTimer{};
     uint8_t keypad[16]{};
-    uint32_t display[64 * 32]{};
+    static const unsigned int DISPLAY_WIDTH = 64;
+    static const unsigned int DISPLAY_HEIGHT = 32;
+    uint32_t display[DISPLAY_HEIGHT * DISPLAY_WIDTH]{};
     uint16_t opcode{};
     std::default_random_engine randGen;
     std::uniform_int_distribution<uint8_t> randByte;
@@ -21,4 +23,5 @@ class Chip8{
     
 void LoadROM(char const* filename);
 void Cycle();
+
 };
