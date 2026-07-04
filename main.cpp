@@ -61,6 +61,10 @@ int main(int argc, char *argv[])
     SDL_Event e;
     uint32_t lastCycleTime = SDL_GetTicks();
 
+    uint32_t lastFpsTime = SDL_GetTicks();
+    int frameCount = 0;
+
+
     while (!quit)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -151,6 +155,16 @@ int main(int argc, char *argv[])
         }
 
         RenderDisplay(chip8, renderer);
+
+        frameCount++;
+        if (currentTime - lastFpsTime >= 1000) 
+        {
+            std::string title = "CHIP-8 Emulator | FPS: " + std::to_string(frameCount);
+            SDL_SetWindowTitle(window, title.c_str());
+            
+            frameCount = 0;
+            lastFpsTime = currentTime;
+        }
 
         SDL_Delay(2);
     }
