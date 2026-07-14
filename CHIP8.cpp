@@ -76,16 +76,6 @@ void Chip8::Cycle()
     uint8_t last_digit = (opcode & 0x000Fu);
     uint16_t address = opcode & 0x0FFFu;
 
-    if (delayTimer < 0)
-    {
-        --delayTimer;
-    }
-
-    if (soundTimer < 0)
-    {
-        --soundTimer;
-    }
-
     switch (first_digit)
     {
     case 0x0:

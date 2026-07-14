@@ -1,0 +1,194 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #e0e0e0; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* --- Main Application Container --- */
+.app-container {
+  background-color: #fdfbf0; 
+  width: 100%;
+  max-width: 1200px;
+  border: 4px solid #000000;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.app-header {
+  background-color: #5b86a5;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-bottom: 4px solid #000000;
+}
+
+/* --- Main Content Layout (Flexbox magic starts here) --- */
+.main-content {
+  display: flex;
+  padding: 30px;
+  gap: 40px;
+}
+
+/* --- Left Column --- */
+.left-column {
+  flex: 0 0 auto; /* Don't grow or shrink, just be your natural size */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.select-box {
+  padding: 8px 12px;
+  border: 3px solid #000000;
+  background: white;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27292.4%27%20height%3D%27292.4%27%3E%3Cpath%20fill%3D%27%23000000%27%20d%3D%27M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.7-9.2-5.4-12.8z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px auto;
+  padding-right: 30px;
+}
+.computer-graphic {
+  display: block;
+  image-rendering: pixelated;
+  width: 412px;
+  height: auto;
+}
+
+.right-column {
+  flex: 1;
+  border: 4px solid #000000;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header-bar {
+  background-color: #5b86a5;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-bottom: 4px solid #000000;
+}
+
+/* Statistics Layout */
+.stats-content-wrapper {
+  display: flex;
+  flex: 1; 
+}
+
+/* The black labels inside the boxes */
+.black-label {
+  background-color: #000000;
+  color: white;
+  padding: 8px 20px;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 15px; /* Spacing from the top border */
+  position: relative; /* For z-index over lines */
+  z-index: 2;
+}
+
+.stats-left-col {
+  flex: 1; /* Takes 1 part space */
+  border-right: 4px solid #000000;
+  padding: 0 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- Flags, Instruction, Controls Section (Right) --- */
+.stats-right-col {
+  flex: 1.8; /* Takes more space than registers */
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Flags Section --- */
+.flags-box {
+  padding: 0 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 4px solid #000000;
+  min-height: 120px;
+  position: relative; /* For the vertical line */
+}
+
+
+.instruction-box {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  border-bottom: 4px solid #000000;
+}
+.instruction-value {
+  font-family: "Courier New", Courier, monospace; /* Monospace font for data */
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.controls-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Fill the rest of the height */
+}
+
+.controls-header-bar {
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  font-weight: bold;
+  border-bottom: 4px solid #000000;
+}
+.keypad-container {
+  background-color: #cce6f0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.keypad-graphic {
+  display: block;
+  width:384px;
+  image-rendering: pixelated;
+  max-width: 100%;
+  height: auto;
+}
+
+.panel-header-bar, .app-header, .controls-header-bar {
+    background-color: #5567aa; 
+    background-image: url('data:image/svg+xml;utf8,<svg width="4" height="4" xmlns="http://www.w3.org/2000/svg"><rect width="2" height="2" fill="%2355AA9F"/><rect x="2" y="2" width="2" height="2" fill="%2355AA9F"/></svg>');
+    
+    background-repeat: repeat;
+    color: white;
+
+}
+
+body, .app-container {
+    /* Base white/cream */
+    background-color: #fdfbf0; 
+    
+    /* 8x8 grid drawing the yellow dots (more spacing) */
+    background-image: url('data:image/svg+xml;utf8,<svg width="6" height="6" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="%23ffff8f"/></svg>');
+    
+    background-repeat: repeat;
+}
