@@ -27,8 +27,12 @@
                     <option>Space Invaders</option>
                     <option>Pong</option>
                 </select>
-
-                <img src="pc.png" alt="Pixel Art Computer" class="computer-graphic">
+                <div class="computer-monitor-container">
+                    <div class="screen-filler">
+                        <canvas id="canvas" width="64" height="32"></canvas>
+                    </div>
+                    <img src="pc.png" alt="Pixel Art Computer" class="computer-graphic">
+                </div>
             </section>
             <section class="right-column">
                 <div class="panel-header-bar">Statistics</div>
@@ -64,6 +68,7 @@
             </section>
 
         </main>
+        <script src="app.js"></script>
     </div>
 
 </body>

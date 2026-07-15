@@ -6,7 +6,7 @@
 
 body {
   font-family: sans-serif;
-  background-color: #e0e0e0; 
+  background-color: #e0e0e0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,7 @@ body {
 
 /* --- Main Application Container --- */
 .app-container {
-  background-color: #fdfbf0; 
+  background-color: #fdfbf0;
   width: 100%;
   max-width: 1200px;
   border: 4px solid #000000;
@@ -42,11 +42,18 @@ body {
 
 /* --- Left Column --- */
 .left-column {
-  flex: 0 0 auto; /* Don't grow or shrink, just be your natural size */
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+.computer-monitor-container {
+  position: relative;
+  display: inline-block;
+  width: 420px;
+}
+
+
 
 .select-box {
   padding: 8px 12px;
@@ -62,11 +69,38 @@ body {
   background-size: 12px auto;
   padding-right: 30px;
 }
+
+.screen-filler {
+    position: absolute;
+    background-color: #000000;
+    top: 10px; 
+    left: 45px;
+    width: 340px;
+    height: 340px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .computer-graphic {
   display: block;
   image-rendering: pixelated;
-  width: 412px;
+  width: 100%;
   height: auto;
+  z-index: 2;
+  position: relative;
+  pointer-events: none;
+}
+
+#canvas {
+  position: absolute;
+  background-color: #000000;
+  z-index: 1;
+  image-rendering: pixelated;
+  top: 70px;
+  left: 10px;
+aspect-ratio: 2 / 1;
+width: 312px;
 }
 
 .right-column {
@@ -89,7 +123,7 @@ body {
 /* Statistics Layout */
 .stats-content-wrapper {
   display: flex;
-  flex: 1; 
+  flex: 1;
 }
 
 /* The black labels inside the boxes */
@@ -131,7 +165,6 @@ body {
   position: relative; /* For the vertical line */
 }
 
-
 .instruction-box {
   padding: 20px;
   display: flex;
@@ -168,27 +201,29 @@ body {
 
 .keypad-graphic {
   display: block;
-  width:384px;
+  width: 384px;
   image-rendering: pixelated;
   max-width: 100%;
   height: auto;
 }
 
-.panel-header-bar, .app-header, .controls-header-bar {
-    background-color: #5567aa; 
-    background-image: url('data:image/svg+xml;utf8,<svg width="4" height="4" xmlns="http://www.w3.org/2000/svg"><rect width="2" height="2" fill="%2355AA9F"/><rect x="2" y="2" width="2" height="2" fill="%2355AA9F"/></svg>');
-    
-    background-repeat: repeat;
-    color: white;
+.panel-header-bar,
+.app-header,
+.controls-header-bar {
+  background-color: #5567aa;
+  background-image: url('data:image/svg+xml;utf8,<svg width="4" height="4" xmlns="http://www.w3.org/2000/svg"><rect width="2" height="2" fill="%2355AA9F"/><rect x="2" y="2" width="2" height="2" fill="%2355AA9F"/></svg>');
 
+  background-repeat: repeat;
+  color: white;
 }
 
-body, .app-container {
-    /* Base white/cream */
-    background-color: #fdfbf0; 
-    
-    /* 8x8 grid drawing the yellow dots (more spacing) */
-    background-image: url('data:image/svg+xml;utf8,<svg width="6" height="6" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="%23ffff8f"/></svg>');
-    
-    background-repeat: repeat;
+body,
+.app-container {
+  /* Base white/cream */
+  background-color: #fdfbf0;
+
+  /* 8x8 grid drawing the yellow dots (more spacing) */
+  background-image: url('data:image/svg+xml;utf8,<svg width="6" height="6" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="%23ffff8f"/></svg>');
+
+  background-repeat: repeat;
 }
