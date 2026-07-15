@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <emscripten.h>
 #include "CHIP8.hpp"
 
 const int scale = 15;
