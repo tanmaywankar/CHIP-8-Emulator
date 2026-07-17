@@ -49,6 +49,6 @@ int main()
     chip8.registers[0] = 0x1A;
     chip8.registers[15] = 0xFF;
 
-    emscripten_set_main_loop_arg(main_loop_tick, nullptr, 0, 1);
+    emscripten_set_main_loop_arg(main_loop_tick, nullptr, 60, 1);
     return 0;
 }

@@ -48,11 +48,13 @@
 
                         <div class="flags-box">
                             <span class="black-label">Flags</span>
+                            <div class="flags">Program Counter (PC): <b id="ui-pc"></b></div>
+                            <div class="flags">Index Register (I): <b id="ui-index"></b></div>
                         </div>
 
                         <div class="instruction-box">
                             <span class="black-label">Current Instruction</span>
-                            <span class="instruction-value">0xD20110</span>
+                            <span class="instruction-value" id="ui-instruction"></span>
                         </div>
 
 
@@ -68,7 +70,9 @@
             </section>
 
         </main>
+        <script src="emu_core.js"></script>
         <script src="app.js"></script>
+
     </div>
 
 </body>

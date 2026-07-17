@@ -207,6 +207,12 @@ width: 312px;
   height: auto;
 }
 
+.flags{
+  padding: 5px;
+  font-weight: 700;
+  text-align: left;
+}
+
 .panel-header-bar,
 .app-header,
 .controls-header-bar {
