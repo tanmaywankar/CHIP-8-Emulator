@@ -42,6 +42,7 @@ extern "C"
 
 void main_loop_tick(void *args)
 {
+    chip8.Cycle();
 }
 
 int main()
