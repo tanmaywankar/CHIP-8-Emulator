@@ -34,6 +34,10 @@ extern "C"
     {
         return &chip8.index;
     }
+    EMSCRIPTEN_KEEPALIVE
+    uint8_t *getMemoryPointer(){
+        return chip8.memory;
+    }
 }
 
 void main_loop_tick(void *args)

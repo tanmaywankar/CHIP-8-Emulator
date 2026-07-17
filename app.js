@@ -1,47 +1,20 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-
-//placeholder code until the emu core works
-
-let x = 10,
-  y = 10;
-let dx = 0.2,
-  dy = 0.2;
-const size = 6;
-let color = "#ffffff";
-
-// Helper to get random color
-function getRandomColor() {
-  const letters = "89ABCDEF";
-  let col = "#";
-  for (let i = 0; i < 6; i++) {
-    col += letters[Math.floor(Math.random() * letters.length)];
-  }
-  return col;
-}
+let display;
 
 function animate() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, 64, 32);
+  ctx.fillStyle = "white";
 
-  ctx.fillStyle = color;
-  ctx.fillRect(Math.floor(x), Math.floor(y), size, size);
-
-  x += dx;
-  y += dy;
-
-  let hit = false;
-  if (x + size >= 64 || x <= 0) {
-    dx = -dx;
-    hit = true;
-  }
-  if (y + size >= 32 || y <= 0) {
-    dy = -dy;
-    hit = true;
-  }
-
-  if (hit) {
-    color = getRandomColor();
+  if (typeof display !== "undefined") {
+    for (let i = 0; i < 2048; i++) {
+      if (display[i] !== 0) {
+        const x = i % 64;
+        const y = Math.floor(i / 64);
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
   }
 
   requestAnimationFrame(animate);
@@ -62,6 +35,7 @@ Module.onRuntimeInitialized = () => {
   const pc = new Uint16Array(Module.HEAPU16.buffer, ptrPC, 1);
   const index = new Uint16Array(Module.HEAPU16.buffer, ptrIndex, 1);
   const opcode = new Uint16Array(Module.HEAPU16.buffer, ptrOpcode, 1);
+  display = new Uint32Array(Module.HEAPU32.buffer, ptrDisplay, 2048);
 
   function toHex(num, padding) {
     return "0x" + num.toString(16).toUpperCase().padStart(padding, 0);
@@ -86,4 +60,9 @@ Module.onRuntimeInitialized = () => {
       }
     }
   }, 10);
+
 };
+
+function loadRom(){
+  
+}
