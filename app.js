@@ -73,4 +73,17 @@ Module.onRuntimeInitialized = () => {
   }, 10);
 
   console.log(index[0]);
+
+  setTimeout(() => {
+    const regContainer = document.getElementById("ui-registers");
+    if (regContainer) {
+      regContainer.innerHTML = "";
+      for (let i = 0; i < 16; i++) {
+        const hexLabel = i.toString(16).toUpperCase();
+        const hexValue = toHex(registers[i], 2);
+        console.log(registers[15]);
+        regContainer.innerHTML += `<div class = "register-values"><b>V${hexLabel}</b>: ${hexValue}</div>`;
+      }
+    }
+  }, 10);
 };

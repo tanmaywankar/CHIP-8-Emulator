@@ -213,6 +213,15 @@ width: 312px;
   text-align: left;
 }
 
+.register-values{
+  padding: 5px;
+  display: flex;
+  border: 1px solid #000;
+  width: 150px;
+  justify-content:center;
+  font-size: 15px;
+}
+
 .panel-header-bar,
 .app-header,
 .controls-header-bar {
