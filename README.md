@@ -36,7 +36,6 @@ Original Pad:          Modern Keyboard:
 chip8/
 ├── assets/
 │   ├── keyboard.png
-│   ├── pc.aseprite
 │   └── pc.png
 ├── roms/
 │   ├── ibmlogo.ch8
