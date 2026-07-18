@@ -8,6 +8,25 @@ let registers;
 let isRomLoaded = false;
 let romPath = "/roms/ibmlogo.ch8";
 
+let keypad;
+const KEY_MAP = {
+  1: 0x1,
+  2: 0x2,
+  3: 0x3,
+  4: 0xc,
+  q: 0x4,
+  w: 0x5,
+  e: 0x6,
+  r: 0xd,
+  a: 0x7,
+  s: 0x8,
+  d: 0x9,
+  f: 0xe,
+  z: 0xa,
+  x: 0x0,
+  c: 0xb,
+  v: 0xf,
+};
 
 function toHex(num, padding) {
   return "0x" + num.toString(16).toUpperCase().padStart(padding, 0);
@@ -56,12 +75,31 @@ Module.onRuntimeInitialized = () => {
   const ptrIndex = Module._getIndexPointer();
   const ptrOpcode = Module._getOpcodePointer();
   const ptrDisplay = Module._getDisplayPointer();
+  const ptrKeypad = Module._getKeyPointer();
 
   registers = new Uint8Array(Module.HEAPU8.buffer, ptrRegister, 16);
   pc = new Uint16Array(Module.HEAPU16.buffer, ptrPC, 1);
   index = new Uint16Array(Module.HEAPU16.buffer, ptrIndex, 1);
   opcode = new Uint16Array(Module.HEAPU16.buffer, ptrOpcode, 1);
   display = new Uint32Array(Module.HEAPU32.buffer, ptrDisplay, 2048);
+  keypad = new Uint8Array(Module.HEAPU8.buffer, ptrKeypad, 16);
+
+  window.addEventListener("keydown", (e) => {
+    const hexKey = KEY_MAP[e.key.toLowerCase()];
+
+    if (hexKey !== undefined) {
+      keypad[hexKey] = 1; 
+    }
+  });
+
+  window.addEventListener("keyup", (e) => {
+    const hexKey = KEY_MAP[e.key.toLowerCase()];
+
+    if (hexKey !== undefined) {
+      keypad[hexKey] = 0;
+    }
+  });
+
   loadRom(romPath, Module, pc);
 };
 
