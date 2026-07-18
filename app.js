@@ -8,6 +8,13 @@ let registers;
 let isRomLoaded = false;
 let romPath = "roms/ibmlogo.ch8";
 
+let sound;
+const synth = new Tone.Synth({
+  oscillator: { type: "square" },
+}).toDestination();
+let isPlayingTone = false;
+
+
 let keypad;
 const KEY_MAP = {
   1: 0x1,
@@ -62,6 +69,20 @@ function animate() {
     }
   }
 
+if (sound) {
+    if (sound[0] > 0) {
+      if (!isPlayingTone) {
+        synth.triggerAttack(440);
+        isPlayingTone = true;
+      }
+    } else {
+      if (isPlayingTone) {
+        synth.triggerRelease();
+        isPlayingTone = false;
+      }
+    }
+  }
+
   requestAnimationFrame(animate);
 }
 
@@ -76,6 +97,7 @@ Module.onRuntimeInitialized = () => {
   const ptrOpcode = Module._getOpcodePointer();
   const ptrDisplay = Module._getDisplayPointer();
   const ptrKeypad = Module._getKeyPointer();
+  const ptrSound = Module._getSoundPointer();
 
   registers = new Uint8Array(Module.HEAPU8.buffer, ptrRegister, 16);
   pc = new Uint16Array(Module.HEAPU16.buffer, ptrPC, 1);
@@ -83,12 +105,13 @@ Module.onRuntimeInitialized = () => {
   opcode = new Uint16Array(Module.HEAPU16.buffer, ptrOpcode, 1);
   display = new Uint32Array(Module.HEAPU32.buffer, ptrDisplay, 2048);
   keypad = new Uint8Array(Module.HEAPU8.buffer, ptrKeypad, 16);
+  sound = new Uint8Array(Module.HEAPU8.buffer, ptrSound, 1);
 
   window.addEventListener("keydown", (e) => {
     const inputKey = KEY_MAP[e.key.toLowerCase()];
 
     if (inputKey !== undefined) {
-      keypad[inputKey] = 1; 
+      keypad[inputKey] = 1;
     }
   });
 
@@ -99,7 +122,6 @@ Module.onRuntimeInitialized = () => {
       keypad[inputKey] = 0;
     }
   });
-
   loadRom(romPath, Module, pc);
 };
 
@@ -107,7 +129,7 @@ function loadRom(rom, WasmModule, pcArray) {
   fetch(rom)
     .then((response) => {
       if (!response.ok)
-        throw new error(`did not find the file: ${response.statusText}`);
+        throw new Error(`did not find the file: ${response.statusText}`);
       return response.arrayBuffer();
     })
     .then((buffer) => {
@@ -133,6 +155,7 @@ function loadRom(rom, WasmModule, pcArray) {
 }
 
 document.getElementById("dropdown").onchange = (e) => {
+  Tone.start();
   const value = e.target.value;
   if (value === "none") {
     romPath = "roms/ibmlogo.ch8";
