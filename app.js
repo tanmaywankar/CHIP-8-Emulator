@@ -6,7 +6,7 @@ let index;
 let opcode;
 let registers;
 let isRomLoaded = false;
-let romPath = "/roms/ibmlogo.ch8";
+let romPath = "roms/ibmlogo.ch8";
 
 let keypad;
 const KEY_MAP = {
@@ -85,18 +85,18 @@ Module.onRuntimeInitialized = () => {
   keypad = new Uint8Array(Module.HEAPU8.buffer, ptrKeypad, 16);
 
   window.addEventListener("keydown", (e) => {
-    const hexKey = KEY_MAP[e.key.toLowerCase()];
+    const inputKey = KEY_MAP[e.key.toLowerCase()];
 
-    if (hexKey !== undefined) {
-      keypad[hexKey] = 1; 
+    if (inputKey !== undefined) {
+      keypad[inputKey] = 1; 
     }
   });
 
   window.addEventListener("keyup", (e) => {
-    const hexKey = KEY_MAP[e.key.toLowerCase()];
+    const inputKey = KEY_MAP[e.key.toLowerCase()];
 
-    if (hexKey !== undefined) {
-      keypad[hexKey] = 0;
+    if (inputKey !== undefined) {
+      keypad[inputKey] = 0;
     }
   });
 
@@ -135,13 +135,13 @@ function loadRom(rom, WasmModule, pcArray) {
 document.getElementById("dropdown").onchange = (e) => {
   const value = e.target.value;
   if (value === "none") {
-    romPath = "/roms/ibmlogo.ch8";
+    romPath = "roms/ibmlogo.ch8";
   } else if (value === "pong") {
-    romPath = "/roms/Pong.ch8";
+    romPath = "roms/Pong.ch8";
   } else if (value === "tank") {
-    romPath = "/roms/Tank.ch8";
+    romPath = "roms/Tank.ch8";
   } else if (value === "test") {
-    romPath = "/roms/test_opcode.ch8";
+    romPath = "roms/test_opcode.ch8";
   }
 
   if (typeof Module !== "undefined" && pc) {
