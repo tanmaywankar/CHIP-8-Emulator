@@ -2,6 +2,8 @@
 * Written in C++ and compiled to Wasm using `Emscripten`. 
 * Uses vanilla javascipt for web and  `Tone.js` for tone generation.
 
+> **for mobile:**currently it does not work well on mobile, cuz keyboard controls do not exist on phone yk.
+
 ## Technical Features
 *   **Display:** Uses Html canvas to render the chip8's 64 x 32 screen.
 *   **Audio:** Generates a simple tone as sound, as per the instruction by the soundTimer of chip8.
