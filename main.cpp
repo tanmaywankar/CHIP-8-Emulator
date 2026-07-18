@@ -35,14 +35,60 @@ extern "C"
         return &chip8.index;
     }
     EMSCRIPTEN_KEEPALIVE
-    uint8_t *getMemoryPointer(){
+    uint8_t *getMemoryPointer()
+    {
         return chip8.memory;
+    }
+
+    EMSCRIPTEN_KEEPALIVE
+    uint8_t *getSoundPointer()
+    {
+        return &chip8.soundTimer;
+    }
+    EMSCRIPTEN_KEEPALIVE
+    uint8_t *getKeyPointer()
+    {
+        return chip8.keypad;
+    }
+
+    EMSCRIPTEN_KEEPALIVE
+    void resetEmulator()
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            chip8.registers[i] = 0;
+        }
+        for (int i = 0; i < 2048; i++)
+        {
+            chip8.display[i] = 0;
+        }
+        chip8.index = 0;
+        chip8.delayTimer = 0;
+        chip8.soundTimer = 0;
+
+        for (int i = 0x200; i < 4096; i++)
+        {
+            chip8.memory[i] = 0;
+        }
     }
 }
 
 void main_loop_tick(void *args)
 {
-    chip8.Cycle();
+    for (int i = 0; i < 10; i++)
+    {
+        chip8.Cycle();
+    }
+
+    if (chip8.delayTimer > 0)
+    {
+        --chip8.delayTimer;
+    }
+
+    if (chip8.soundTimer > 0)
+    {
+        --chip8.soundTimer;
+    }
 }
 
 int main()

@@ -6,6 +6,8 @@ let index;
 let opcode;
 let registers;
 let isRomLoaded = false;
+let romPath = "/roms/ibmlogo.ch8";
+
 
 function toHex(num, padding) {
   return "0x" + num.toString(16).toUpperCase().padStart(padding, 0);
@@ -15,12 +17,6 @@ function animate() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, 64, 32);
   ctx.fillStyle = "white";
-
-  if (isRomLoaded && typeof Module._main_loop_tick !== "undefined") {
-    for (let cycle = 0; cycle < 10; cycle++) {
-      Module._main_loop_tick();
-    }
-  }
 
   if (typeof display !== "undefined") {
     for (let i = 0; i < 2048; i++) {
@@ -42,7 +38,6 @@ function animate() {
       for (let i = 0; i < 16; i++) {
         const hexLabel = i.toString(16).toUpperCase();
         const hexValue = toHex(registers[i], 2);
-        console.log(registers[15]);
         regContainer.innerHTML += `<div class = "register-values"><b>V${hexLabel}</b>: ${hexValue}</div>`;
       }
     }
@@ -67,9 +62,7 @@ Module.onRuntimeInitialized = () => {
   index = new Uint16Array(Module.HEAPU16.buffer, ptrIndex, 1);
   opcode = new Uint16Array(Module.HEAPU16.buffer, ptrOpcode, 1);
   display = new Uint32Array(Module.HEAPU32.buffer, ptrDisplay, 2048);
-  loadRom("roms/test_opcode.ch8", Module, pc);
-
-  console.log(index[0]);
+  loadRom(romPath, Module, pc);
 };
 
 function loadRom(rom, WasmModule, pcArray) {
@@ -100,3 +93,26 @@ function loadRom(rom, WasmModule, pcArray) {
 
     .catch((error) => console.log("error loading", error));
 }
+
+document.getElementById("dropdown").onchange = (e) => {
+  const value = e.target.value;
+  if (value === "none") {
+    romPath = "/roms/ibmlogo.ch8";
+  } else if (value === "pong") {
+    romPath = "/roms/Pong.ch8";
+  } else if (value === "tank") {
+    romPath = "/roms/Tank.ch8";
+  } else if (value === "test") {
+    romPath = "/roms/test_opcode.ch8";
+  }
+
+  if (typeof Module !== "undefined" && pc) {
+    isRomLoaded = false;
+    if (typeof display !== "undefined") {
+      display.fill(0);
+    }
+    Module._resetEmulator();
+    loadRom(romPath, Module, pc);
+    e.target.blur();
+  }
+};
