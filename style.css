@@ -237,9 +237,8 @@ body,
 .app-container {
   /* Base white/cream */
   background-color: #fdfbf0;
-
   /* 8x8 grid drawing the yellow dots (more spacing) */
-  background-image: url('data:image/svg+xml;utf8,<svg width="6" height="6" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="%23ffff8f"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg width="8" height="8" xmlns="http://www.w3.org/2000/svg"><rect width="2" height="2" fill="%23ffff8f"/></svg>');
 
   background-repeat: repeat;
 }
